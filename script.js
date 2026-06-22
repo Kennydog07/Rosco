@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quote form: static site, no backend — guide the user to email/call instead
+  // Quote form → mailto
   const form = document.querySelector('.quote-form');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -18,10 +18,48 @@ document.addEventListener('DOMContentLoaded', () => {
       const service = form.querySelector('[name="service"]')?.value || '';
       const message = form.querySelector('[name="message"]')?.value || '';
       const subject = encodeURIComponent(`Quote request — ${service || 'Painting & Decorating'}`);
-      const body = encodeURIComponent(
-        `Name: ${name}\nService: ${service}\n\n${message}`
-      );
+      const body = encodeURIComponent(`Name: ${name}\nService: ${service}\n\n${message}`);
       window.location.href = `mailto:Rosco-pdm@outlook.com?subject=${subject}&body=${body}`;
     });
+  }
+
+  // ---- Slideshow ----
+  const slides = document.querySelectorAll('.slideshow-slide');
+  const dots   = document.querySelectorAll('.slideshow-dots button');
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    dots[current]?.classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current]?.classList.add('active');
+  }
+
+  function next() { goTo(current + 1); }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 4500);
+  }
+
+  // Init
+  slides[0].classList.add('active');
+  dots[0]?.classList.add('active');
+  startTimer();
+
+  // Dot clicks
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
+
+  // Pause on hover
+  const stage = document.querySelector('.slideshow');
+  if (stage) {
+    stage.addEventListener('mouseenter', () => clearInterval(timer));
+    stage.addEventListener('mouseleave', startTimer);
   }
 });

@@ -464,15 +464,15 @@ footer.site-footer{
   background-position: center;
 }
 .slideshow-slide.active{ opacity: 1; }
-/* Real photo slides */
-.slide-1{ background-image: url('photos/slide1.jpg'); }
-.slide-2{ background-image: url('photos/slide2.jpg'); }
-.slide-3{ background-image: url('photos/slide3.jpg'); }
-.slide-4{ background-image: url('photos/slide4.jpg'); }
-.slide-5{ background-image: url('photos/slide5.jpg'); }
-.slide-6{ background-image: url('photos/slide6.jpg'); }
-.slide-7{ background-image: url('photos/slide7.jpg'); }
-.slide-8{ background-image: url('photos/slide8.jpg'); }
+.slideshow-slide img.slide-img{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Slide images are inline <img> tags — no CSS background-image needed */
 
 .slideshow-caption{
   position: absolute; bottom: 0; left: 0; right: 0;
