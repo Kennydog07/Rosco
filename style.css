@@ -425,6 +425,102 @@ footer.site-footer{
   .footer-grid{ grid-template-columns: 1fr; gap: 28px; }
 }
 
+/* ---------- Facebook link ---------- */
+.fb-link{
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em;
+  text-decoration: none;
+  color: var(--ink);
+  background: rgba(24,119,242,0.08);
+  border: 1px solid rgba(24,119,242,0.22);
+  padding: 8px 16px;
+  border-radius: 100px;
+  transition: background .15s ease, border-color .15s ease;
+}
+.fb-link:hover{ background: rgba(24,119,242,0.16); border-color: rgba(24,119,242,0.45); }
+.fb-link svg{ flex-shrink: 0; }
+.fb-link-nav{
+  display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: none; font-size: 0.92rem; font-weight: 500;
+  color: var(--ink-soft); padding: 9px 16px; border-radius: 100px;
+  transition: color .15s ease, background .15s ease;
+}
+.fb-link-nav:hover{ color: var(--ink); background: rgba(27,35,48,0.06); }
+
+/* ---------- photo slideshow ---------- */
+.slideshow{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--ink);
+}
+.slideshow-slide{
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  background-size: cover;
+  background-position: center;
+}
+.slideshow-slide.active{ opacity: 1; }
+/* Real photo slides */
+.slide-1{ background-image: url('photos/slide1.jpg'); }
+.slide-2{ background-image: url('photos/slide2.jpg'); }
+.slide-3{ background-image: url('photos/slide3.jpg'); }
+.slide-4{ background-image: url('photos/slide4.jpg'); }
+.slide-5{ background-image: url('photos/slide5.jpg'); }
+.slide-6{ background-image: url('photos/slide6.jpg'); }
+.slide-7{ background-image: url('photos/slide7.jpg'); }
+.slide-8{ background-image: url('photos/slide8.jpg'); }
+
+.slideshow-caption{
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 40px 28px 22px;
+  background: linear-gradient(to top, rgba(27,35,48,0.82) 0%, transparent 100%);
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(246,241,230,0.85);
+}
+.slideshow-placeholder{
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 14px;
+  padding: 24px;
+}
+.slideshow-placeholder svg{ width: 52px; height: 52px; opacity: 0.35; }
+.slideshow-placeholder p{
+  font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(246,241,230,0.45);
+  text-align: center; margin: 0; max-width: 30ch; line-height: 1.6;
+}
+
+.slideshow-dots{
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 14px;
+}
+.slideshow-dots button{
+  width: 8px; height: 8px; border-radius: 50%;
+  border: none; padding: 0; cursor: pointer;
+  background: var(--line); transition: background .2s ease, transform .2s ease;
+}
+.slideshow-dots button.active{ background: var(--gold); transform: scale(1.35); }
+
+/* ---------- FB review iframes ---------- */
+.fb-reviews-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 760px){ .fb-reviews-grid{ grid-template-columns: 1fr; } }
+.fb-review-wrap{
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.fb-review-wrap iframe{ display: block; width: 100% !important; }
+
 /* ---------- page intro band (sub-pages) ---------- */
 .page-intro{
   background: var(--ink); color: var(--cream);
