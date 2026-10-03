@@ -536,7 +536,10 @@ footer.site-footer{
   border: 1px solid var(--line);
   background: var(--paper);
 }
-.fb-review-wrap iframe{ display: block; width: 100% !important; }
+.fb-review-wrap{ position: relative; }
+/* Facebook post embeds render at a fixed width (500px) and go blank if squeezed; script.js scales
+   them down to fit narrow screens and centres them on wide ones. */
+.fb-review-wrap iframe{ display: block; width: 500px; max-width: none; transform-origin: top left; }
 
 /* ---------- page intro band (sub-pages) ---------- */
 .page-intro{
@@ -665,7 +668,7 @@ footer.site-footer{
   border-radius: 20px;
   padding: 40px;
 }
-.contact-card h3{ color: var(--cream); }
+.contact-card h2, .contact-card h3{ color: var(--cream); }
 .contact-row{
   display: flex; align-items: center; gap: 14px;
   padding: 16px 0;
@@ -742,9 +745,9 @@ form.quote-form{ display: grid; gap: 16px; }
   margin: 0 auto;
   list-style: none; padding: 0;
 }
-.work-grid li{ margin: 0; }
-.work-grid figure{ margin: 0; position: relative; border-radius: 14px; overflow: hidden; background: var(--ink); aspect-ratio: 1/1; height: 100%; }
-.work-grid img{ width: 100%; height: 100%; object-fit: cover; }
+.work-grid li{ margin: 0; aspect-ratio: 1/1; min-width: 0; }
+.work-grid figure{ margin: 0; position: relative; border-radius: 14px; overflow: hidden; background: var(--ink); width: 100%; height: 100%; }
+.work-grid img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .work-grid figcaption{
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 28px 12px 10px;
@@ -753,12 +756,11 @@ form.quote-form{ display: grid; gap: 16px; }
   color: var(--cream); line-height: 1.4;
 }
 .work-grid .feature{ grid-column: span 2; grid-row: span 2; }
-.work-grid .feature figure{ aspect-ratio: auto; }
 .work-grid .feature img{ object-position: center 35%; }
 .work-grid .feature figcaption{ font-size: 0.74rem; padding: 40px 18px 16px; }
 .work-more{
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center;
-  aspect-ratio: 1/1; height: 100%; border-radius: 14px; padding: 16px;
+  width: 100%; height: 100%; border-radius: 14px; padding: 16px;
   background: var(--cream); border: 1px dashed rgba(27,35,48,0.25);
   text-decoration: none; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
   transition: border-color .15s ease, background .15s ease;

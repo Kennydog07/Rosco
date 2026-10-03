@@ -42,6 +42,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Facebook review embeds: scale the fixed 500px iframe to fit its card
+  const fbWraps = document.querySelectorAll('.fb-review-wrap');
+  const fitFb = () => fbWraps.forEach((wrap) => {
+    const frame = wrap.querySelector('iframe');
+    if (!frame) return;
+    const w = wrap.clientWidth;
+    const scale = Math.min(1, w / 500);
+    frame.style.transform = scale < 1 ? `scale(${scale})` : '';
+    frame.style.marginLeft = scale < 1 ? '0' : `${(w - 500) / 2}px`;
+    wrap.style.height = `${Number(frame.getAttribute('height')) * scale + 2}px`;
+  });
+  if (fbWraps.length) { fitFb(); window.addEventListener('resize', fitFb); }
+
   // Footer year
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
