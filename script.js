@@ -3,63 +3,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.querySelector('.primary-nav');
   if (toggle && nav) {
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
-    });
+    const setOpen = (open) => {
+      nav.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
   }
 
-  // Quote form → mailto
+  // Quote form: Netlify Forms, submitted in the background with an on-page confirmation.
+  // Without JavaScript the form still posts normally and Netlify shows /thanks.html.
   const form = document.querySelector('.quote-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    const status = form.querySelector('.form-status');
+    const button = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = form.querySelector('[name="name"]')?.value || '';
-      const service = form.querySelector('[name="service"]')?.value || '';
-      const message = form.querySelector('[name="message"]')?.value || '';
-      const subject = encodeURIComponent(`Quote request — ${service || 'Painting & Decorating'}`);
-      const body = encodeURIComponent(`Name: ${name}\nService: ${service}\n\n${message}`);
-      window.location.href = `mailto:Rosco-pdm@outlook.com?subject=${subject}&body=${body}`;
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      button.disabled = true; button.textContent = 'Sending…';
+      status.className = 'form-status';
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        if (!res.ok) throw new Error(res.status);
+        form.reset();
+        status.textContent = 'Thanks, your request has been sent. Ross will be in touch to arrange your free estimate.';
+        status.className = 'form-status ok';
+      } catch (err) {
+        status.innerHTML = 'Sorry, that didn\u2019t send. Please call <a href="tel:07580092896">07580 092 896</a> or email <a href="mailto:Rosco-pdm@outlook.com">Rosco-pdm@outlook.com</a>.';
+        status.className = 'form-status err';
+      } finally {
+        button.disabled = false; button.textContent = 'Send request';
+      }
     });
   }
 
-  // ---- Slideshow ----
-  const slides = document.querySelectorAll('.slideshow-slide');
-  const dots   = document.querySelectorAll('.slideshow-dots button');
-  if (!slides.length) return;
-
-  let current = 0;
-  let timer;
-
-  function goTo(idx) {
-    slides[current].classList.remove('active');
-    dots[current]?.classList.remove('active');
-    current = (idx + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current]?.classList.add('active');
-  }
-
-  function next() { goTo(current + 1); }
-
-  function startTimer() {
-    clearInterval(timer);
-    timer = setInterval(next, 4500);
-  }
-
-  // Init
-  slides[0].classList.add('active');
-  dots[0]?.classList.add('active');
-  startTimer();
-
-  // Dot clicks
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => { goTo(i); startTimer(); });
-  });
-
-  // Pause on hover
-  const stage = document.querySelector('.slideshow');
-  if (stage) {
-    stage.addEventListener('mouseenter', () => clearInterval(timer));
-    stage.addEventListener('mouseleave', startTimer);
-  }
+  // Footer year
+  const year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 });

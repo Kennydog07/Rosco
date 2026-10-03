@@ -59,7 +59,7 @@
             <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.5"/></svg></span>
             <span><span class="label">Email</span><span class="value">Rosco-pdm@outlook.com</span></span>
           </a>
-          <a href="https://www.facebook.com/" class="contact-row" target="_blank" rel="noopener">
+          <a href="https://www.facebook.com/Roscopdm" class="contact-row" target="_blank" rel="noopener">
             <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M14 9h2V6h-2c-2 0-3 1.2-3 3v2H9v3h2v6h3v-6h2.2l.5-3H14V9z" fill="currentColor"/></svg></span>
             <span><span class="label">Facebook</span><span class="value">Rosco Painting and Decorating Services</span></span>
           </a>
@@ -81,16 +81,28 @@
 
       <div>
         <h3 style="margin-bottom:6px;">Request a free estimate</h3>
-        <p style="margin-bottom:24px;">Fill this in and it'll open a pre-filled email to send straight across — no account needed.</p>
-        <form class="quote-form">
+        <p style="margin-bottom:24px;">Send a few details and Ross will get back to you to arrange a free, no-obligation visit.</p>
+        <form class="quote-form" name="estimate" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="estimate">
+          <p class="hidden-field" aria-hidden="true"><label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
           <div class="form-row">
             <div>
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name" required>
+              <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="name" name="name" autocomplete="name" required>
             </div>
             <div>
-              <label for="phone">Phone</label>
-              <input type="tel" id="phone" name="phone" required>
+              <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email">
+            </div>
+            <div>
+              <label for="postcode">Postcode</label>
+              <input type="text" id="postcode" name="postcode" autocomplete="postal-code" autocapitalize="characters">
             </div>
           </div>
           <div>
@@ -100,15 +112,17 @@
               <option>Exterior painting</option>
               <option>Dust-free sanding &amp; prep</option>
               <option>Wallpapering</option>
+              <option>Wood &amp; trim finishing</option>
               <option>Not sure yet</option>
             </select>
           </div>
           <div>
-            <label for="message">A few details</label>
+            <label for="message">A few details <span class="req" aria-hidden="true">*</span></label>
             <textarea id="message" name="message" placeholder="Rooms or areas, rough timing, anything else useful for an estimate." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Send request</button>
-          <p class="form-note">This opens your email app with the details filled in, addressed to Rosco-pdm@outlook.com.</p>
+          <div class="form-status" role="status" aria-live="polite"></div>
+          <p class="form-note">* Required. Prefer email? Write to <a href="mailto:Rosco-pdm@outlook.com">Rosco-pdm@outlook.com</a>.</p>
         </form>
       </div>
 
